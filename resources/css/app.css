@@ -1,0 +1,258 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/*
+| Layout concept: a quiet paper field for reading, interrupted by deep "ink"
+| panels wherever the platform shows a machine judgement — a match score, a
+| verification record, an interview scorecard. Blue carries the product; the
+| lime signal is spent only on a score or a passed check, never on chrome.
+*/
+@theme {
+    --font-display: 'Bricolage Grotesque', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    /* Brand — azure, the product voice */
+    --color-brand-50: oklch(0.97 0.018 250);
+    --color-brand-100: oklch(0.94 0.04 250);
+    --color-brand-200: oklch(0.88 0.07 250);
+    --color-brand-300: oklch(0.79 0.11 250);
+    --color-brand-400: oklch(0.68 0.15 250);
+    --color-brand-500: oklch(0.59 0.18 250);
+    --color-brand-600: oklch(0.52 0.19 250);
+    --color-brand-700: oklch(0.44 0.17 250);
+    --color-brand-800: oklch(0.36 0.13 250);
+    --color-brand-900: oklch(0.28 0.09 252);
+
+    /* Ink — neutrals pulled slightly toward the brand hue */
+    --color-ink-50: oklch(0.98 0.004 255);
+    --color-ink-100: oklch(0.95 0.006 255);
+    --color-ink-200: oklch(0.9 0.008 255);
+    --color-ink-300: oklch(0.82 0.01 255);
+    --color-ink-400: oklch(0.67 0.014 255);
+    --color-ink-500: oklch(0.55 0.016 255);
+    --color-ink-600: oklch(0.45 0.018 255);
+    --color-ink-700: oklch(0.36 0.02 255);
+    --color-ink-800: oklch(0.26 0.022 258);
+    --color-ink-900: oklch(0.19 0.024 260);
+    --color-ink-950: oklch(0.14 0.022 260);
+
+    /* Signal — reserved for scores and passed checks */
+    --color-signal-200: oklch(0.93 0.1 118);
+    --color-signal-300: oklch(0.88 0.16 118);
+    --color-signal-400: oklch(0.83 0.2 118);
+    --color-signal-500: oklch(0.76 0.19 122);
+    --color-signal-600: oklch(0.63 0.16 126);
+    --color-signal-700: oklch(0.5 0.13 130);
+
+    /* Semantic */
+    --color-pass-50: oklch(0.96 0.03 150);
+    --color-pass-500: oklch(0.63 0.14 150);
+    --color-pass-700: oklch(0.47 0.11 152);
+    --color-warn-50: oklch(0.97 0.035 80);
+    --color-warn-500: oklch(0.76 0.14 72);
+    --color-warn-700: oklch(0.55 0.12 60);
+    --color-stop-50: oklch(0.96 0.025 20);
+    --color-stop-500: oklch(0.61 0.2 22);
+    --color-stop-700: oklch(0.48 0.17 22);
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        -webkit-font-smoothing: antialiased;
+    }
+
+    h1,
+    h2,
+    h3 {
+        font-family: var(--font-display);
+        text-wrap: balance;
+        letter-spacing: -0.02em;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}
+
+@layer components {
+    /* ---------- Buttons ---------- */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold whitespace-nowrap transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+    }
+
+    .btn-primary {
+        @apply bg-brand-600 text-white shadow-xs hover:bg-brand-700;
+    }
+
+    .btn-secondary {
+        @apply border border-ink-300 bg-white text-ink-700 hover:border-ink-400 hover:bg-ink-50;
+    }
+
+    .btn-ink {
+        @apply bg-ink-900 text-white hover:bg-ink-800;
+    }
+
+    .btn-signal {
+        @apply bg-signal-400 text-ink-900 hover:bg-signal-300;
+    }
+
+    .btn-ghost {
+        @apply text-ink-600 hover:bg-ink-100 hover:text-ink-900;
+    }
+
+    .btn-danger {
+        @apply bg-stop-500 text-white hover:bg-stop-700;
+    }
+
+    .btn-sm {
+        @apply px-3 py-1.5 text-xs;
+    }
+
+    .btn-lg {
+        @apply px-5 py-3 text-base;
+    }
+
+    /* ---------- Forms ---------- */
+    .input {
+        @apply block w-full rounded-lg border border-ink-300 bg-white px-3 py-2.5 text-sm text-ink-900 shadow-xs placeholder:text-ink-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/15 focus:outline-none;
+    }
+
+    .checkbox {
+        @apply size-4 rounded border-ink-300 text-brand-600 accent-brand-600;
+    }
+
+    .radio-card {
+        @apply flex cursor-pointer flex-col gap-1 rounded-xl border border-ink-200 bg-white p-4 transition hover:border-brand-300 has-checked:border-brand-500 has-checked:bg-brand-50 has-checked:ring-2 has-checked:ring-brand-500/15;
+    }
+
+    /* ---------- Surfaces ---------- */
+    .card {
+        @apply rounded-xl border border-ink-200 bg-white shadow-xs;
+    }
+
+    .card-ink {
+        @apply rounded-xl border border-white/10 bg-ink-900 text-white;
+    }
+
+    .panel {
+        @apply rounded-2xl border border-ink-200 bg-white p-6 shadow-sm;
+    }
+
+    .link {
+        @apply font-medium text-brand-700 underline-offset-2 hover:text-brand-900 hover:underline;
+    }
+
+    .eyebrow {
+        @apply text-xs font-semibold tracking-[0.12em] text-ink-500 uppercase;
+    }
+
+    .rule {
+        @apply border-t border-ink-200;
+    }
+
+    /* ---------- Data ---------- */
+    .table {
+        @apply min-w-full divide-y divide-ink-200 text-left text-sm;
+
+        & th {
+            @apply px-4 py-3 text-xs font-semibold tracking-wide text-ink-500 uppercase;
+        }
+
+        & td {
+            @apply px-4 py-3 align-middle text-ink-700;
+        }
+
+        & tbody {
+            @apply divide-y divide-ink-100;
+        }
+
+        & tbody tr {
+            @apply transition hover:bg-ink-50/70;
+        }
+    }
+
+    .num {
+        font-variant-numeric: tabular-nums;
+        @apply font-mono;
+    }
+
+    .meter {
+        @apply h-1.5 w-full overflow-hidden rounded-full bg-ink-200;
+
+        & > span {
+            @apply block h-full rounded-full;
+        }
+    }
+
+    /* ---------- Chrome ---------- */
+    .sidebar-link {
+        @apply flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium text-ink-600 transition hover:bg-ink-100 hover:text-ink-900;
+    }
+
+    .sidebar-link-active {
+        @apply bg-brand-50 text-brand-700 hover:bg-brand-50 hover:text-brand-700;
+    }
+
+    .tab {
+        @apply -mb-px inline-flex items-center gap-2 border-b-2 border-transparent px-1 pb-3 text-sm font-medium whitespace-nowrap text-ink-500 transition hover:border-ink-300 hover:text-ink-800;
+    }
+
+    .tab-active {
+        @apply border-brand-600 text-brand-700 hover:border-brand-600 hover:text-brand-700;
+    }
+
+    /* ---------- Mobile mockup frame ---------- */
+    .device {
+        @apply relative mx-auto w-[320px] shrink-0 rounded-[2.25rem] border-[10px] border-ink-900 bg-white shadow-2xl;
+    }
+
+    .device-screen {
+        @apply h-[640px] overflow-hidden rounded-[1.6rem] bg-ink-50;
+    }
+
+    .device-notch {
+        @apply absolute top-0 left-1/2 z-20 h-6 w-28 -translate-x-1/2 rounded-b-2xl bg-ink-900;
+    }
+
+    /* Grid paper used behind ink panels on the landing page. */
+    .ink-grid {
+        background-image:
+            linear-gradient(to right, color-mix(in oklch, white 7%, transparent) 1px, transparent 1px),
+            linear-gradient(to bottom, color-mix(in oklch, white 7%, transparent) 1px, transparent 1px);
+        background-size: 44px 44px;
+    }
+
+    .paper-grid {
+        background-image:
+            linear-gradient(to right, var(--color-ink-200) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--color-ink-200) 1px, transparent 1px);
+        background-size: 44px 44px;
+    }
+}
+
+@utility scrollbar-none {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
